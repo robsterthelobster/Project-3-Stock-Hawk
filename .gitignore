@@ -1,5 +1,4 @@
 *.iml
-.gradle
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
@@ -7,8 +6,6 @@
 /build
 /captures
 build/
-*.gradle
-.gradle
 .DS_Store
 
 # built application files
@@ -50,3 +47,6 @@ project.properties
 
 ##Gradle-based build
 build/
+*.bin
+.gradle/2.10/taskArtifacts/cache.properties.lock
+*.properties
