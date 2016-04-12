@@ -1,7 +1,13 @@
 package com.sam_chordas.android.stockhawk.rest;
 
 import android.content.ContentProviderOperation;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
 import java.util.ArrayList;
@@ -18,6 +24,19 @@ public class Utils {
 
     public static boolean showPercent = true;
 
+    /*
+        check to see if the ticker exists
+     */
+    private static boolean checkTicker(JSONObject jsonObject){
+        boolean valid = false;
+        try {
+            valid = !jsonObject.get("Change").equals(null);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return valid;
+    }
+
     public static ArrayList quoteJsonToContentVals(String JSON){
         ArrayList<ContentProviderOperation> batchOperations = new ArrayList<>();
         JSONObject jsonObject = null;
@@ -30,14 +49,19 @@ public class Utils {
                 if (count == 1){
                     jsonObject = jsonObject.getJSONObject("results")
                             .getJSONObject("quote");
-                    batchOperations.add(buildBatchOperation(jsonObject));
+                    if(checkTicker(jsonObject)) {
+                        batchOperations.add(buildBatchOperation(jsonObject));
+                    }
                 } else{
                     resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
 
                     if (resultsArray != null && resultsArray.length() != 0){
+
                         for (int i = 0; i < resultsArray.length(); i++){
                             jsonObject = resultsArray.getJSONObject(i);
-                            batchOperations.add(buildBatchOperation(jsonObject));
+                            if(checkTicker(jsonObject)){
+                                batchOperations.add(buildBatchOperation(jsonObject));
+                            }
                         }
                     }
                 }
