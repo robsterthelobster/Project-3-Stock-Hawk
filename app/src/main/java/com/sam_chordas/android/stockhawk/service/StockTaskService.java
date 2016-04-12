@@ -33,6 +33,8 @@ public class StockTaskService extends GcmTaskService{
     private StringBuilder mStoredSymbols = new StringBuilder();
     private boolean isUpdate;
 
+    public StockTaskService(){super();}
+
     public StockTaskService(Context context){
         mContext = context;
     }
