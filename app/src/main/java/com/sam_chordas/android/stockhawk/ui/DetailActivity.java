@@ -3,6 +3,7 @@ package com.sam_chordas.android.stockhawk.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -15,6 +16,17 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_graph);
+
+        if(savedInstanceState == null){
+            Bundle bundle = new Bundle();
+            int position = getIntent().getIntExtra(MyStocksActivity.STOCK_POSITION, -1);
+            bundle.putInt(MyStocksActivity.STOCK_POSITION, position);
+
+            DetailFragment fragment = new DetailFragment();
+            fragment.setArguments(bundle);
+
+            getFragmentManager().beginTransaction().replace(R.id.detail_containter, fragment).commit();
+        }
     }
 
     @Override

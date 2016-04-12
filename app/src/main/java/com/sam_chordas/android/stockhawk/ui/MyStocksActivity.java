@@ -5,11 +5,9 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -20,9 +18,7 @@ import android.text.InputType;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.sam_chordas.android.stockhawk.R;
@@ -51,11 +47,13 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     private CharSequence mTitle;
     private Intent mServiceIntent;
     private ItemTouchHelper mItemTouchHelper;
-    private static final int CURSOR_LOADER_ID = 0;
     private QuoteCursorAdapter mCursorAdapter;
     private Context mContext;
     private Cursor mCursor;
     boolean isConnected;
+
+    private static final int CURSOR_LOADER_ID = 0;
+    public static final String STOCK_POSITION = "item";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +88,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                     @Override public void onItemClick(View v, int position) {
                         //TODO:
                         // do something on item click
-                        detailActivity();
+                        onItemClickDetailActivity(position);
 
                     }
                 }));
@@ -207,8 +205,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         return super.onOptionsItemSelected(item);
     }
 
-    private void detailActivity(){
-        Intent intent = new Intent(this, DetailActivity.class);
+    private void onItemClickDetailActivity(int position){
+        Intent intent = new Intent(this, DetailActivity.class).putExtra(STOCK_POSITION, position);
         this.startActivity(intent);
     }
 
