@@ -19,8 +19,8 @@ public class DetailActivity extends AppCompatActivity {
 
         if(savedInstanceState == null){
             Bundle bundle = new Bundle();
-            int position = getIntent().getIntExtra(MyStocksActivity.STOCK_POSITION, -1);
-            bundle.putInt(MyStocksActivity.STOCK_POSITION, position);
+            String symbol = getIntent().getStringExtra(MyStocksActivity.STOCK_POSITION);
+            bundle.putString(MyStocksActivity.STOCK_POSITION, symbol);
 
             DetailFragment fragment = new DetailFragment();
             fragment.setArguments(bundle);

@@ -88,8 +88,11 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                     @Override public void onItemClick(View v, int position) {
                         //TODO:
                         // do something on item click
-                        onItemClickDetailActivity(position);
-
+                        if(mCursor!=null && mCursor.getCount() >= position){
+                            mCursor.moveToPosition(position);
+                            String symbol = mCursor.getString(mCursor.getColumnIndex("symbol"));
+                            onItemClickDetailActivity(symbol);
+                        }
                     }
                 }));
         recyclerView.setAdapter(mCursorAdapter);
@@ -205,8 +208,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         return super.onOptionsItemSelected(item);
     }
 
-    private void onItemClickDetailActivity(int position){
-        Intent intent = new Intent(this, DetailActivity.class).putExtra(STOCK_POSITION, position);
+    private void onItemClickDetailActivity(String symbol){
+        Intent intent = new Intent(this, DetailActivity.class).putExtra(STOCK_POSITION, symbol);
         this.startActivity(intent);
     }
 
