@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">Stock Hawk</string>
 
-    <string name="valid_ticker_key" translatable="false">ticker</string>
-
     <string name="action_settings">Settings</string>
     <string name="action_change_units">Change Units</string>
     <string name="symbol_search">Symbol Search</string>
@@ -12,8 +10,9 @@
     <string name="input_prefill" translatable="false"></string>
 
     <string name="network_toast">Uh-oh! This app requires an internet connection</string>
-
     <string name="floating_button_description">Add new stock</string>
     <string name="add_ticker_toast">This stock is already saved!</string>
+    <string name="empty_view_no_data_no_internet">No stock information available. The network is not available to fetch stock data.</string>
+    <string name="empty_view_data_without_internet">The network is not available to fetch stock data. Stock data are not up-to-date and graphs have been disabled.</string>
 
 </resources>

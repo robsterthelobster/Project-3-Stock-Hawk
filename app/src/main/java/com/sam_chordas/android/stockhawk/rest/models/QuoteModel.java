@@ -10,4 +10,12 @@ import java.util.List;
 public class QuoteModel {
     @SerializedName("quote")
     List<Quote> quote;
+
+    public List<Quote> getQuote() {
+        return quote;
+    }
+
+    public void setQuote(List<Quote> quote) {
+        this.quote = quote;
+    }
 }

@@ -10,4 +10,12 @@ import java.util.List;
 public class HistoricalDataModel {
     @SerializedName("query")
     QueryModel query;
+
+    public QueryModel getQuery() {
+        return query;
+    }
+
+    public void setQuery(QueryModel query) {
+        this.query = query;
+    }
 }

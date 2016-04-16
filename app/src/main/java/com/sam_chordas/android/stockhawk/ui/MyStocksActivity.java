@@ -6,8 +6,6 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.ActionBar;
 import android.os.Bundle;
@@ -19,6 +17,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.sam_chordas.android.stockhawk.R;
@@ -50,7 +49,10 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     private QuoteCursorAdapter mCursorAdapter;
     private Context mContext;
     private Cursor mCursor;
-    boolean isConnected;
+    private RecyclerViewItemClickListener mRecyclerViewItemClickListener;
+
+    private RecyclerView mRecyclerView;
+    private TextView mEmptyView;
 
     private static final int CURSOR_LOADER_ID = 0;
     public static final String STOCK_POSITION = "item";
@@ -59,12 +61,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        ConnectivityManager cm =
-                (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        isConnected = activeNetwork != null &&
-                activeNetwork.isConnectedOrConnecting();
         setContentView(R.layout.activity_my_stocks);
         // The intent service is for executing immediate pulls from the Yahoo API
         // GCMTaskService can only schedule tasks, they cannot execute immediately
@@ -72,37 +69,39 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         if (savedInstanceState == null){
             // Run the initialize task service so that some stocks appear upon an empty database
             mServiceIntent.putExtra("tag", "init");
-            if (isConnected){
+            if (Utility.isNetworkAvailable(this)){
                 startService(mServiceIntent);
             } else{
                 networkToast();
             }
         }
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
+        mEmptyView = (TextView) findViewById(R.id.stocks_empty);
 
         mCursorAdapter = new QuoteCursorAdapter(this, null);
-        recyclerView.addOnItemTouchListener(new RecyclerViewItemClickListener(this,
+        mRecyclerViewItemClickListener = new RecyclerViewItemClickListener(this,
                 new RecyclerViewItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View v, int position) {
                         //TODO:
                         // do something on item click
                         if(mCursor!=null && mCursor.getCount() >= position){
                             mCursor.moveToPosition(position);
-                            String symbol = mCursor.getString(mCursor.getColumnIndex("symbol"));
+                            String symbol = mCursor.getString(mCursor.getColumnIndex(QuoteColumns.SYMBOL));
                             onItemClickDetailActivity(symbol);
                         }
                     }
-                }));
-        recyclerView.setAdapter(mCursorAdapter);
+                });
+        mRecyclerView.addOnItemTouchListener(mRecyclerViewItemClickListener);
+        mRecyclerView.setAdapter(mCursorAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.attachToRecyclerView(recyclerView);
+        fab.attachToRecyclerView(mRecyclerView);
         fab.setContentDescription(getString(R.string.floating_button_description));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                if (isConnected){
+                if (Utility.isNetworkAvailable(mContext)){
                     new MaterialDialog.Builder(mContext).title(R.string.symbol_search)
                             .content(R.string.content_test)
                             .inputType(InputType.TYPE_CLASS_TEXT)
@@ -138,10 +137,10 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mCursorAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(recyclerView);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
 
         mTitle = getTitle();
-        if (isConnected){
+        if (Utility.isNetworkAvailable(this)){
             long period = 3600L;
             long flex = 10L;
             String periodicTag = "periodic";
@@ -228,6 +227,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     public void onLoadFinished(Loader<Cursor> loader, Cursor data){
         mCursorAdapter.swapCursor(data);
         mCursor = data;
+        toggleEmptyView();
     }
 
     @Override
@@ -235,4 +235,23 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         mCursorAdapter.swapCursor(null);
     }
 
+    private void toggleEmptyView(){
+        if (!Utility.isNetworkAvailable(this)) {
+            if(mCursorAdapter.getItemCount() == 0){
+                mEmptyView.setText(R.string.empty_view_no_data_no_internet);
+                mRecyclerView.setVisibility(View.GONE);
+                mRecyclerView.addOnItemTouchListener(mRecyclerViewItemClickListener);
+
+            }else{
+                mEmptyView.setText(R.string.empty_view_data_without_internet);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mRecyclerView.removeOnItemTouchListener(mRecyclerViewItemClickListener);
+            }
+            mEmptyView.setVisibility(View.VISIBLE);
+        }
+        else {
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mEmptyView.setVisibility(View.GONE);
+        }
+    }
 }
