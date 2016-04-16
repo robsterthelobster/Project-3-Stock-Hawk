@@ -3,18 +3,14 @@ package com.sam_chordas.android.stockhawk.ui;
 import android.animation.PropertyValuesHolder;
 import android.app.Fragment;
 import android.graphics.Color;
-import android.graphics.DashPathEffect;
 import android.graphics.Paint;
-import android.graphics.PathEffect;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.db.chart.Tools;
 import com.db.chart.listener.OnEntryClickListener;
@@ -29,7 +25,6 @@ import com.sam_chordas.android.stockhawk.rest.models.HistoricalDataModel;
 import com.sam_chordas.android.stockhawk.rest.models.Quote;
 
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.util.List;
 
 import okhttp3.HttpUrl;
@@ -163,15 +158,15 @@ public class DetailFragment extends Fragment {
                     gridPaint.setColor(Color.parseColor("#2d374c"));
                     gridPaint.setStyle(Paint.Style.STROKE);
                     gridPaint.setAntiAlias(true);
-                    gridPaint.setStrokeWidth(Tools.fromDpToPx(1f));
-                    mLineChartView.setGrid(ChartView.GridType.FULL, gridPaint);
+                    gridPaint.setStrokeWidth(Tools.fromDpToPx(1.5f));
+                    mLineChartView.setGrid(ChartView.GridType.FULL, (int)(arraySize*1.5), arraySize, gridPaint);
 
                     // Animation customization
                     Animation anim = new Animation(1500);
                     anim.setEasing(new CubicEase());
                     mLineChartView.show(anim);
 
-                    // Tooltip -- from the sample WilliamChart
+                    // Tooltip -- sample and resources from the sample WilliamChart LineCardThree
                     mTip = new Tooltip(getActivity(), R.layout.tooltip, R.id.value);
                     mTip.setVerticalAlignment(Tooltip.Alignment.BOTTOM_TOP);
                     mTip.setDimensions((int) Tools.fromDpToPx(65), (int) Tools.fromDpToPx(25));
@@ -198,7 +193,7 @@ public class DetailFragment extends Fragment {
                             if(mTip.getParent() != null){
                                 ((ViewGroup)mTip.getParent()).removeView(mTip);
                             }
-                            mTip.prepare(mLineChartView.getEntriesArea(0).get(3), mValues[0][3]);
+                            mTip.prepare(mLineChartView.getEntriesArea(setIndex).get(entryIndex), mValues[setIndex][entryIndex]);
                             mLineChartView.showTooltip(mTip, true);
                         }
                     });

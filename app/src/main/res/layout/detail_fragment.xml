@@ -7,6 +7,8 @@
         xmlns:chart="http://schemas.android.com/apk/res-auto"
         android:id="@+id/linechart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        chart:paddingStart="5dp"
+        chart:paddingEnd="5dp"/>
 
 </FrameLayout>
