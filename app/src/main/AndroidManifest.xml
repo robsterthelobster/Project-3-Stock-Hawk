@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.sam_chordas.android.stockhawk.ui.DetailActivity"
-            android:label="Details"/>
+            android:label="collections"/>
         <service android:name="com.sam_chordas.android.stockhawk.service.StockTaskService"
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE"
             android:exported="true">
@@ -42,6 +42,21 @@
             android:authorities="com.sam_chordas.android.stockhawk.data.QuoteProvider"
             android:name="com.sam_chordas.android.stockhawk.data.generated.QuoteProvider"
             android:exported="false"/>
+        <receiver
+            android:name=".widget.CollectionWidgetProvider"
+            android:label="@string/title_widget_collection"
+            android:enabled="@bool/widget_collection_enabled" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />/>
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info_collection" />
+        </receiver>
+        <service
+            android:name=".widget.CollectionWidgetRemoteViewsService"
+            android:enabled="@bool/widget_collection_enabled"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>
 
 </manifest>
