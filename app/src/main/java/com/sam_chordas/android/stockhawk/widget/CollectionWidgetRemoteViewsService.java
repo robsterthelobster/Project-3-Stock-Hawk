@@ -83,6 +83,7 @@ public class CollectionWidgetRemoteViewsService extends  RemoteViewsService{
                 String symbol = data.getString(INDEX_STOCKS_SYMBOL);
                 String bid_price = data.getString(INDEX_STOCKS_BIDPRICE);
                 String change = data.getString(INDEX_STOCKS_PERCENT_CHANGE);
+
                 views.setTextViewText(R.id.stock_symbol, symbol);
                 views.setTextViewText(R.id.bid_price, bid_price);
                 views.setTextViewText(R.id.change, change);

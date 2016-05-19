@@ -30,7 +30,10 @@ public class Utils {
     private static boolean checkTicker(JSONObject jsonObject){
         boolean valid = false;
         try {
-            valid = !jsonObject.get("Change").equals(null);
+            valid = !jsonObject.get("Change").equals(null)
+                && !jsonObject.get("Bid").equals(null)
+                && !jsonObject.get("ChangeinPercent").equals(null)
+                && !jsonObject.get("symbol").equals(null);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -116,4 +119,6 @@ public class Utils {
         }
         return builder.build();
     }
+
+
 }

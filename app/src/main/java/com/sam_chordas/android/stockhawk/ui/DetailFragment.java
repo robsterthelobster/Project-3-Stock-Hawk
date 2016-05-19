@@ -135,7 +135,6 @@ public class DetailFragment extends Fragment {
 
                         values[i] = value;
                         mLabels[i] = quote.getDate();
-                        System.out.println("quote " + quote.getSymbol() + " " + quote.getClose() + " " + quote.getDate());
                     }
                     mValues[0] = values;
 
