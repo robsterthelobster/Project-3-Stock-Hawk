@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.db.chart.Tools;
 import com.db.chart.listener.OnEntryClickListener;
@@ -45,6 +46,8 @@ import retrofit2.http.Query;
 public class DetailFragment extends Fragment {
 
     LineChartView mLineChartView;
+    TextView emptyView;
+    TextView loadingView;
     String symbol;
     HistoricalDataService service;
     String query;
@@ -82,6 +85,8 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.detail_fragment, container, false);
         mLineChartView = (LineChartView) rootView.findViewById(R.id.linechart);
+        emptyView = (TextView) rootView.findViewById(R.id.chart_empty_view);
+        loadingView = (TextView) rootView.findViewById(R.id.chart_loading_view);
 
         Bundle args = getArguments();
         if(args != null){
@@ -115,7 +120,7 @@ public class DetailFragment extends Fragment {
         call.enqueue(new Callback<HistoricalDataModel>() {
             @Override
             public void onResponse(Call<HistoricalDataModel> call, Response<HistoricalDataModel> response) {
-                if(response != null && response.body()!=null){
+                if(response != null && response.body()!=null && isAdded()){
                     List<Quote> quotes = response.body().getQuery().getResults().getQuote();
                     int arraySize = quotes.size();
                     float[] values = new float[arraySize];
@@ -197,11 +202,14 @@ public class DetailFragment extends Fragment {
                         }
                     });
                 }
+                emptyView.setVisibility(View.INVISIBLE);
+                loadingView.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onFailure(Call<HistoricalDataModel> call, Throwable t) {
                 Log.e(LOG_TAG, t.getStackTrace().toString());
+                emptyView.setVisibility(View.VISIBLE);
             }
         });
 

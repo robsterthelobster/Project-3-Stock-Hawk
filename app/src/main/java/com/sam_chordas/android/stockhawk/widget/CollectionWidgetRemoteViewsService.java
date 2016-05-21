@@ -4,13 +4,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
+import com.sam_chordas.android.stockhawk.data.QuoteDatabase;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
+import com.sam_chordas.android.stockhawk.ui.MyStocksActivity;
 
 /**
  * Created by robin on 5/16/2016.
@@ -78,8 +81,8 @@ public class CollectionWidgetRemoteViewsService extends  RemoteViewsService{
                         data == null || !data.moveToPosition(position)) {
                     return null;
                 }
-                RemoteViews views = new RemoteViews(getPackageName(),
-                        R.layout.widget_list_item);
+                RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget_list_item);
+
                 String symbol = data.getString(INDEX_STOCKS_SYMBOL);
                 String bid_price = data.getString(INDEX_STOCKS_BIDPRICE);
                 String change = data.getString(INDEX_STOCKS_PERCENT_CHANGE);
@@ -94,6 +97,10 @@ public class CollectionWidgetRemoteViewsService extends  RemoteViewsService{
                 }else{
                     views.setInt(R.id.change, "setBackgroundResource", R.drawable.percent_change_pill_red);
                 }
+
+                final Intent fillInIntent = new Intent();
+                fillInIntent.putExtra(MyStocksActivity.STOCK_POSITION, symbol);
+                views.setOnClickFillInIntent(R.id.widget_list_item, fillInIntent);
 
                 return views;
             }

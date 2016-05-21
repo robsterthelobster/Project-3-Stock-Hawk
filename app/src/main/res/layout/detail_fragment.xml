@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <com.db.chart.view.LineChartView
@@ -10,5 +12,22 @@
         android:layout_height="match_parent"
         chart:paddingStart="5dp"
         chart:paddingEnd="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:text = "Loading chart data..."
+        android:gravity="center"
+        android:text = "Loading chart data..."
+        android:id="@+id/chart_loading_view"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:text = "Error displaying chart"
+        android:text = "Error dispaly charty"
+        android:id="@+id/chart_empty_view"
+        android:visibility="invisible"/>
 
 </FrameLayout>
