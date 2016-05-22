@@ -1,7 +1,6 @@
 package com.sam_chordas.android.stockhawk.rest;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
@@ -68,9 +67,6 @@ public abstract class CursorRecyclerViewAdapter <VH extends RecyclerView.ViewHol
     }
 
     public Cursor swapCursor(Cursor newCursor){
-        if (newCursor == mCursor){
-            return null;
-        }
         final Cursor oldCursor = mCursor;
         if (oldCursor != null && mDataSetObserver != null){
             oldCursor.unregisterDataSetObserver(mDataSetObserver);

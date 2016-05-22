@@ -1,9 +1,7 @@
 package com.sam_chordas.android.stockhawk.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -60,16 +58,25 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
+        /*
+            Preserve symbol for the title
+         */
         savedInstanceState.putString("Symbol", mSymbol);
         super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
+         /*
+            Preserve symbol for the title
+         */
         super.onRestoreInstanceState(savedInstanceState);
         mSymbol = savedInstanceState.getString("Symbol");
     }
 
+    /*
+    Update the detail activity label with the stock symbol
+    */
     private void updateTitleWithSymbol(){
         if(mSymbol != null) {
             this.setTitle(getString(R.string.detail_label) + " " + mSymbol.toUpperCase());

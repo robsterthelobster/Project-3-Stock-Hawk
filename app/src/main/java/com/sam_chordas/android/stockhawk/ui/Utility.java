@@ -31,11 +31,10 @@ public class Utility {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date date = sdf.parse(str);
-            return new SimpleDateFormat("dd/MM", Locale.US).format(date);
+            return new SimpleDateFormat("MMM dd", Locale.US).format(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         return str;
     }
-
 }

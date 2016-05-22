@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.db.chart.Tools;
 import com.db.chart.listener.OnEntryClickListener;
 import com.db.chart.model.LineSet;
+import com.db.chart.model.Point;
 import com.db.chart.view.ChartView;
 import com.db.chart.view.LineChartView;
 import com.db.chart.view.Tooltip;
@@ -26,6 +27,8 @@ import com.sam_chordas.android.stockhawk.rest.models.HistoricalDataModel;
 import com.sam_chordas.android.stockhawk.rest.models.Quote;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.HttpUrl;
@@ -128,7 +131,9 @@ public class DetailFragment extends Fragment {
 
                     float minValue = Float.MAX_VALUE, maxValue = Float.MIN_VALUE;
 
-                    for(int i = 0; i < arraySize; i++){
+                    LineSet dataset = new LineSet();
+
+                    for(int i = arraySize - 1; i >= 0; i--){
                         Quote quote = quotes.get(i);
                         float value = quote.getClose();
                         if(value < minValue){
@@ -140,11 +145,12 @@ public class DetailFragment extends Fragment {
 
                         values[i] = value;
                         mLabels[i] = Utility.truncateYearFromDate(quote.getDate());
+                        dataset.addPoint(new Point(Utility.truncateYearFromDate(quote.getDate()), value));
                     }
                     mValues[0] = values;
 
                     // chart
-                    LineSet dataset = new LineSet(mLabels, mValues[0]);
+                    //dataset = new LineSet(mLabels, values);
                     dataset.setColor(getResources().getColor(R.color.material_pink_a400))
                             .setDotsColor(getResources().getColor(R.color.material_blue_600))
                             .setThickness(6);
@@ -189,6 +195,7 @@ public class DetailFragment extends Fragment {
                         mTip.setPivotY(Tools.fromDpToPx(25));
                     }
 
+                    mTip.setValueFormat(new DecimalFormat("0.00"));
                     mLineChartView.setTooltips(mTip);
 
                     mLineChartView.setOnEntryClickListener(new OnEntryClickListener() {

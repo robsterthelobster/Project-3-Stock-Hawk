@@ -203,6 +203,13 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         if (id == R.id.action_change_units){
             // this is for changing stock changes from percent value to dollar value
             Utils.showPercent = !Utils.showPercent;
+
+            if(Utils.showPercent){
+                item.setTitle(getString(R.string.action_change_units_dollars));
+            }else{
+                item.setTitle(getString(R.string.action_change_units_percentage));
+            }
+
             this.getContentResolver().notifyChange(QuoteProvider.Quotes.CONTENT_URI, null);
         }
 

@@ -45,9 +45,15 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final Cursor cursor){
-        viewHolder.symbol.setText(cursor.getString(cursor.getColumnIndex("symbol")));
-        viewHolder.bidPrice.setText(cursor.getString(cursor.getColumnIndex("bid_price")));
-        int sdk = Build.VERSION.SDK_INT;
+
+        String symbol = cursor.getString(cursor.getColumnIndex("symbol"));
+        viewHolder.symbol.setText(symbol);
+        viewHolder.symbol.setContentDescription(mContext.getString(R.string.a11y_symbol, symbol));
+
+        String bid_price = cursor.getString(cursor.getColumnIndex("bid_price"));
+        viewHolder.bidPrice.setText(bid_price);
+        viewHolder.bidPrice.setContentDescription(mContext.getString(R.string.a11y_price, bid_price));
+
         if (cursor.getInt(cursor.getColumnIndex("is_up")) == 1){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 viewHolder.change.setBackground(
@@ -65,11 +71,15 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
                         mContext.getResources().getDrawable(R.drawable.percent_change_pill_red));
             }
         }
+        String change = "";
         if (Utils.showPercent){
-            viewHolder.change.setText(cursor.getString(cursor.getColumnIndex("percent_change")));
+            change = cursor.getString(cursor.getColumnIndex("percent_change"));
+            viewHolder.change.setContentDescription(mContext.getString(R.string.a11y_change, change));
         } else{
-            viewHolder.change.setText(cursor.getString(cursor.getColumnIndex("change")));
+            change = cursor.getString(cursor.getColumnIndex("change"));
+            viewHolder.change.setContentDescription(mContext.getString(R.string.a11y_change_dollars, change));
         }
+        viewHolder.change.setText(change);
     }
 
     @Override public void onItemDismiss(int position) {
