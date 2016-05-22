@@ -12,6 +12,8 @@ import com.sam_chordas.android.stockhawk.R;
 
 public class DetailActivity extends AppCompatActivity {
 
+    String mSymbol;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +23,9 @@ public class DetailActivity extends AppCompatActivity {
             Bundle bundle = new Bundle();
             String symbol = getIntent().getStringExtra(MyStocksActivity.STOCK_POSITION);
             bundle.putString(MyStocksActivity.STOCK_POSITION, symbol);
+            mSymbol = symbol;
+
+            updateTitleWithSymbol();
 
             DetailFragment fragment = new DetailFragment();
             fragment.setArguments(bundle);
@@ -45,5 +50,29 @@ public class DetailActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateTitleWithSymbol();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString("Symbol", mSymbol);
+        super.onSaveInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mSymbol = savedInstanceState.getString("Symbol");
+    }
+
+    private void updateTitleWithSymbol(){
+        if(mSymbol != null) {
+            this.setTitle(getString(R.string.detail_label) + " " + mSymbol.toUpperCase());
+        }
     }
 }

@@ -139,7 +139,7 @@ public class DetailFragment extends Fragment {
                         }
 
                         values[i] = value;
-                        mLabels[i] = quote.getDate();
+                        mLabels[i] = Utility.truncateYearFromDate(quote.getDate());
                     }
                     mValues[0] = values;
 
@@ -173,7 +173,7 @@ public class DetailFragment extends Fragment {
                     // Tooltip -- sample and resources from the sample WilliamChart LineCardThree
                     mTip = new Tooltip(getActivity(), R.layout.tooltip, R.id.value);
                     mTip.setVerticalAlignment(Tooltip.Alignment.BOTTOM_TOP);
-                    mTip.setDimensions((int) Tools.fromDpToPx(65), (int) Tools.fromDpToPx(25));
+                    mTip.setDimensions((int) Tools.fromDpToPx(80), (int) Tools.fromDpToPx(25));
 
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 
@@ -185,7 +185,7 @@ public class DetailFragment extends Fragment {
                                 PropertyValuesHolder.ofFloat(View.SCALE_Y, 0f),
                                 PropertyValuesHolder.ofFloat(View.SCALE_X, 0f)).setDuration(200);
 
-                        mTip.setPivotX(Tools.fromDpToPx(65) / 2);
+                        mTip.setPivotX(Tools.fromDpToPx(80) / 2);
                         mTip.setPivotY(Tools.fromDpToPx(25));
                     }
 

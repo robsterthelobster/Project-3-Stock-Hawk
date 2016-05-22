@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity android:name="com.sam_chordas.android.stockhawk.ui.DetailActivity"
-            android:label="collections"/>
+            android:label="@string/detail_label"/>
         <service android:name="com.sam_chordas.android.stockhawk.service.StockTaskService"
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE"
             android:exported="true">

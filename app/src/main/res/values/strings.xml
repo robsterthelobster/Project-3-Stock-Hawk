@@ -15,6 +15,9 @@
     <string name="empty_view_no_data_no_internet">No stock information available. The network is not available to fetch stock data.</string>
     <string name="empty_view_data_without_internet">The network is not available to fetch stock data. Stock data are not up-to-date and graphs have been disabled.</string>
 
+    <!-- This is the title for detail fragment.  The symbol will be appended on at the end. -->
+    <string name="detail_label">Stock Graph for</string>
+
     <string name="title_widget_collection">Stocks</string>
 
 </resources>
