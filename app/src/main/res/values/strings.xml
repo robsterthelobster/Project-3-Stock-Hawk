@@ -13,6 +13,7 @@
     <string name="network_toast">Uh-oh! This app requires an internet connection</string>
     <string name="floating_button_description">Add new stock</string>
     <string name="add_ticker_toast">This stock is already saved!</string>
+    <string name="add_non_ticker_toast">This stock could not be found!</string>
     <string name="empty_view_no_data_no_internet">No stock information available. The network is not available to fetch stock data.</string>
     <string name="empty_view_data_without_internet">The network is not available to fetch stock data. Stock data are not up-to-date and graphs have been disabled.</string>
 
