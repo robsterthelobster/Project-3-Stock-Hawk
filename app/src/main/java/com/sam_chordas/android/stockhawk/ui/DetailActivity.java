@@ -79,7 +79,7 @@ public class DetailActivity extends AppCompatActivity {
     */
     private void updateTitleWithSymbol(){
         if(mSymbol != null) {
-            this.setTitle(getString(R.string.detail_label) + " " + mSymbol.toUpperCase());
+            this.setTitle(getString(R.string.detail_label, mSymbol.toUpperCase()));
         }
     }
 }

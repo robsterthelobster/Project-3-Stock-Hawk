@@ -17,7 +17,9 @@
     <string name="empty_view_data_without_internet">The network is not available to fetch stock data. Stock data are not up-to-date and graphs have been disabled.</string>
 
     <!-- This is the title for detail fragment.  The symbol will be appended on at the end. -->
-    <string name="detail_label">Stock Graph for</string>
+    <string name="detail_label">Stock Graph for <xliff:g id="symbol">%1$s</xliff:g></string>
+    <string name="chart_display_error">Error retrieving data for graph.</string>
+    <string name="chart_loading">Loading chart data...</string>
 
     <string name="title_widget_collection">Stocks</string>
 
@@ -27,5 +29,8 @@
     <string name="a11y_price">Price: $<xliff:g id="price">%1$s</xliff:g></string>
     <string name="a11y_change">Change: <xliff:g id="change">%1$s</xliff:g></string>
     <string name="a11y_change_dollars">Change: $<xliff:g id="change">%1$s</xliff:g></string>
+    <!-- a11y_tooltip is used for the chart tooltips -->
+    <!-- Format is 'value' on 'date' EX: $3.33 on Mar 3 -->
+    <string name="a11y_tooltip">$<xliff:g id="price">%1$s</xliff:g> on <xliff:g id="date">%2$s</xliff:g></string>
 
 </resources>

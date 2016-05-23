@@ -44,7 +44,7 @@
         <receiver
             android:name=".widget.CollectionWidgetProvider"
             android:label="@string/title_widget_collection"
-            android:enabled="@bool/widget_collection_enabled" >
+            android:enabled="true" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="com.sam_chordas.android.stockhawk.service.ACTION_DATA_UPDATED"/>
@@ -55,7 +55,7 @@
         </receiver>
         <service
             android:name=".widget.CollectionWidgetRemoteViewsService"
-            android:enabled="@bool/widget_collection_enabled"
+            android:enabled="true"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
     </application>

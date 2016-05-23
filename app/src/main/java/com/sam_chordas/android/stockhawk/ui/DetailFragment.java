@@ -26,6 +26,8 @@ import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.rest.models.HistoricalDataModel;
 import com.sam_chordas.android.stockhawk.rest.models.Quote;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ import retrofit2.http.Query;
 public class DetailFragment extends Fragment {
 
     LineChartView mLineChartView;
+    TextView mTooltipTextView;
     TextView emptyView;
     TextView loadingView;
     String symbol;
@@ -90,6 +93,7 @@ public class DetailFragment extends Fragment {
         mLineChartView = (LineChartView) rootView.findViewById(R.id.linechart);
         emptyView = (TextView) rootView.findViewById(R.id.chart_empty_view);
         loadingView = (TextView) rootView.findViewById(R.id.chart_loading_view);
+        mTooltipTextView = (TextView) rootView.findViewById(R.id.value);
 
         Bundle args = getArguments();
         if(args != null){
@@ -125,7 +129,7 @@ public class DetailFragment extends Fragment {
             public void onResponse(Call<HistoricalDataModel> call, Response<HistoricalDataModel> response) {
                 if(response != null && response.body()!=null && isAdded()){
                     List<Quote> quotes = response.body().getQuery().getResults().getQuote();
-                    int arraySize = quotes.size();
+                    final int arraySize = quotes.size();
                     float[] values = new float[arraySize];
                     mLabels = new String[arraySize];
 
@@ -153,7 +157,7 @@ public class DetailFragment extends Fragment {
                     //dataset = new LineSet(mLabels, values);
                     dataset.setColor(getResources().getColor(R.color.material_pink_a400))
                             .setDotsColor(getResources().getColor(R.color.material_blue_600))
-                            .setThickness(6);
+                            .setThickness(6).setDotsRadius(24f);
 
                     mLineChartView.addData(dataset);
                     mLineChartView.setLabelsColor(getResources().getColor(R.color.material_pink_a400));
@@ -204,8 +208,18 @@ public class DetailFragment extends Fragment {
                             if(mTip.getParent() != null){
                                 ((ViewGroup)mTip.getParent()).removeView(mTip);
                             }
-                            mTip.prepare(mLineChartView.getEntriesArea(setIndex).get(entryIndex), mValues[setIndex][entryIndex]);
+                            float value = mValues[setIndex][entryIndex];
+                            String label = mLabels[arraySize - entryIndex - 1];
+                            mTip.prepare(mLineChartView.getEntriesArea(setIndex).get(entryIndex), value);
                             mLineChartView.showTooltip(mTip, true);
+                            int format = R.string.a11y_tooltip;
+                            String description = String.format(getActivity().getString(format), value, label);
+
+                            mTooltipTextView = (TextView) getActivity().findViewById(R.id.value);
+
+                            if(mTooltipTextView != null){
+                                mTooltipTextView.setContentDescription(description);
+                            }
                         }
                     });
                 }

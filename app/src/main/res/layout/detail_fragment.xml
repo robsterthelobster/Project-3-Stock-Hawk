@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         tools:text = "Loading chart data..."
         android:gravity="center"
-        android:text = "Loading chart data..."
+        android:text = "@string/chart_loading"
         android:id="@+id/chart_loading_view"
         />
 
@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:text = "Error displaying chart"
-        android:text = "Error dispaly charty"
+        android:text = "@string/chart_display_error"
         android:id="@+id/chart_empty_view"
         android:visibility="invisible"/>
 

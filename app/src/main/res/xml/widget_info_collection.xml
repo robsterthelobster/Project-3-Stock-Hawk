@@ -25,4 +25,5 @@
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="0"
     android:widgetCategory="home_screen|keyguard"
+    android:previewImage="@drawable/widget_collections_preview"
     tools:ignore="UnusedAttribute" />
