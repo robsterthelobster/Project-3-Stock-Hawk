@@ -30,6 +30,7 @@
     <string name="a11y_price">Price: $<xliff:g id="price">%1$s</xliff:g></string>
     <string name="a11y_change">Change: <xliff:g id="change">%1$s</xliff:g></string>
     <string name="a11y_change_dollars">Change: $<xliff:g id="change">%1$s</xliff:g></string>
+    <string name="a11y_widget_button">Stock Hawk Widget. Press to enter app.</string>
     <!-- a11y_tooltip is used for the chart tooltips -->
     <!-- Format is 'value' on 'date' EX: $3.33 on Mar 3 -->
     <string name="a11y_tooltip">$<xliff:g id="price">%1$s</xliff:g> on <xliff:g id="date">%2$s</xliff:g></string>

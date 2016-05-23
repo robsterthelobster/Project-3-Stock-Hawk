@@ -225,6 +225,10 @@ public class DetailFragment extends Fragment {
                 }
                 emptyView.setVisibility(View.INVISIBLE);
                 loadingView.setVisibility(View.INVISIBLE);
+
+                for(View view : mLineChartView.getTouchables()){
+                    view.setFocusable(true);
+                }
             }
 
             @Override

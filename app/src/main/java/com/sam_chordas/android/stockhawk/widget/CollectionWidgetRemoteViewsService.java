@@ -11,7 +11,9 @@ import android.widget.RemoteViewsService;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.QuoteColumns;
 import com.sam_chordas.android.stockhawk.data.QuoteProvider;
+import com.sam_chordas.android.stockhawk.rest.Utils;
 import com.sam_chordas.android.stockhawk.ui.MyStocksActivity;
+import com.sam_chordas.android.stockhawk.ui.Utility;
 
 /**
  * Created by robin on 5/16/2016.
@@ -86,8 +88,19 @@ public class CollectionWidgetRemoteViewsService extends  RemoteViewsService{
                 String change = data.getString(INDEX_STOCKS_PERCENT_CHANGE);
 
                 views.setTextViewText(R.id.stock_symbol, symbol);
+                views.setContentDescription(R.id.stock_symbol, getString(R.string.a11y_symbol, symbol));
+
                 views.setTextViewText(R.id.bid_price, bid_price);
+                views.setContentDescription(R.id.bid_price, getString(R.string.a11y_price, bid_price));
+
                 views.setTextViewText(R.id.change, change);
+                views.setContentDescription(R.id.change, getString(R.string.a11y_change, symbol));
+
+                if (Utils.showPercent){
+                    views.setContentDescription(R.id.change, getString(R.string.a11y_change, change));
+                } else{
+                    views.setContentDescription(R.id.change, getString(R.string.a11y_change_dollars, change));
+                }
 
                 int isUp = data.getInt(INDEX_STOCKS_ISUP);
                 if(isUp == 1){
